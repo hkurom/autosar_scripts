@@ -1,12 +1,8 @@
 require "find"
 require "pp"
 
-def usage
+if ARGV.empty? || ARGV.count() < 1
   puts "Usage: " + File.basename($0) + ' [path]...'
-end
-
-if ARGV.empty? || ARGV.count() != 1
-  usage()
   exit 1
 end
 
@@ -31,4 +27,9 @@ ARGV.each{|path|
   }
 }
 
-pp memmap_defines - other_defines
+other_defines.uniq!
+memmap_defines.uniq!
+
+other_defines.each {|define|
+  pp define unless memmap_defines.include?(define)
+}
