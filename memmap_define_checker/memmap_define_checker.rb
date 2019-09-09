@@ -22,7 +22,7 @@ ARGV.each{|path|
     else
       defines = other_defines
     end
-    File.open(file, "r") do |f|
+    File.open(file, "r:utf-8") do |f|
       f.each_line do |line|
         m = line.match(/\w+(START|STOP)_SEC.*/)
         defines.push(m.to_s.chomp) if !m.nil?
