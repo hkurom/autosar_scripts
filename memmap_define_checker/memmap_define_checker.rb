@@ -2,18 +2,25 @@ require "find"
 require "pp"
 require "optparse"
 
+p ARGV
 if ARGV.empty? || ARGV.count() < 1
   puts "Usage: " + File.basename($0) + ' [path]...'
   exit 1
 end
 
-exclude_dirs = ARGV.getopts("exclude:")
-p exclude_dirs if $DEBUG
-
+exclude_dirs = []
+args = ARGV.getopts("e:", "exclude:")
+pp args if $DEBUG
+if (!args["exclude"].nil?) 
+  exclude_dirs = args["exclude"]
+else
+end
+ARGV.parse!()
 memmap_defines = []
 other_defines  = []
 
 ARGV.each{|path|
+  next if exclude_dirs.include?(path)
   Find.find(path) {|file|
     next if !file.match(/\.[ch]$/)
     defines = []
